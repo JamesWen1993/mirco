@@ -1,0 +1,45 @@
+{
+  "name": "qiankunspa",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "apps:installAll": "npm-run-all --parallel install:*",
+    "apps:start": "npm-run-all --parallel start:*",
+    "apps:build": "npm-run-all --parallel build:*",
+    "install:mainApp": "cd apps/mainApp && yarn",
+    "start:mainApp": "cd apps/mainApp && yarn serve",
+    "build:mainApp": "cd apps/mainApp && yarn build",
+    "install:disaster": "cd apps/disaster && yarn",
+    "start:disaster": "cd apps/disaster && yarn serve",
+    "build:disaster": "cd apps/disaster && yarn build",
+    "install:tenant": "cd apps/tenant && yarn",
+    "start:tenant": "cd apps/tenant && yarn serve",
+    "build:tenant": "cd apps/tenant && yarn build",
+    "serve": "vue-cli-service serve",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "core-js": "^3.6.4",
+    "father-build": "^1.17.2",
+    "npm-run-all": "^4.1.5",
+    "qiankun": "^2.0.0-3",
+    "register-service-worker": "^1.7.1",
+    "vue": "^2.6.11",
+    "vue-router": "^3.1.6",
+    "vuex": "^3.1.3"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.3.0",
+    "@vue/cli-plugin-eslint": "~4.3.0",
+    "@vue/cli-plugin-pwa": "~4.3.0",
+    "@vue/cli-plugin-router": "~4.3.0",
+    "@vue/cli-plugin-vuex": "~4.3.0",
+    "@vue/cli-service": "~4.3.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.2.2",
+    "less": "^3.0.4",
+    "less-loader": "^5.0.0",
+    "vue-template-compiler": "^2.6.11"
+  }
+}
