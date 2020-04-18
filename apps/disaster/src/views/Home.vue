@@ -34,6 +34,6 @@ export default {
 
 <style>
   .home{
-    background: antiquewhite;
+    text-align: center;
   }
 </style>

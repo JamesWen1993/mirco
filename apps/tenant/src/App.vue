@@ -7,7 +7,23 @@
     <router-view/>
   </div>
 </template>
+<script>
+  // @ is an alias to /src
+  import axios from 'axios'
 
+  export default {
+    methods: {
+    },
+    mounted() {
+      axios.get('/open/choose/tenants', {})
+              .then((response) => {
+                let data = response.data
+                console.log(this,data)
+              })
+
+    }
+  }
+</script>
 <style lang="less">
 #tenant {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -19,6 +35,7 @@
 
 #nav {
   padding: 30px;
+  text-align: center;
 
   a {
     font-weight: bold;

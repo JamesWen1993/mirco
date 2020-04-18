@@ -2,17 +2,17 @@ const port = 3101; // dev port
 module.exports = {
 
     configureWebpack:{
-        // externals: {
-        //     'jquery': '$',
-        //     'axios': 'axios',
-        //     'vue-router': 'VueRouter',
-        //     'vue': 'Vue',
-        //     'vuex': 'Vuex',
-        //     'view-design': 'view-design',
-        //     'vue-i18n': 'VueI18n',
-        //     'swiper': 'Swiper',
-        //     'echarts': 'echarts'
-        // }
+        externals: {
+            'jquery': '$',
+            'axios': 'axios',
+            'vue-router': 'VueRouter',
+            'vue': 'Vue',
+            'vuex': 'Vuex',
+            'view-design': 'view-design',
+            'vue-i18n': 'VueI18n',
+            'swiper': 'Swiper',
+            'echarts': 'echarts'
+        }
     },
     // publicPath: './',
     devServer: {

@@ -28,7 +28,6 @@ function render(props = {}) {
 
 if (!window.__POWERED_BY_QIANKUN__) {
   // eslint-disable-next-line
-  console.log(window)
   render();
 }
 
@@ -36,6 +35,10 @@ if (!window.__POWERED_BY_QIANKUN__) {
 export async function bootstrap(props) {
   // eslint-disable-next-line
   console.log('[vue] vue app bootstraped');
+  // 注册主应用下发的组件
+  Vue.use(props.components);
+  // 把工具函数挂载在vue $mainUtils对象
+  Vue.prototype.$mainUtils = props.utils;
   let pager = props.pager;
   pager.subscribe((v) => {
     // 在子应用注册呼机监听器，这里可以监听到其他应用的广播

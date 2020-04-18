@@ -4,34 +4,32 @@ const { name } = require('./package');
 function resolve(dir) {
     return path.join(__dirname, dir);
 }
-// const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-// const CompressionWebpackPlugin = require('compression-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-// const productionGzipExtensions = ['js', 'css'];
+const productionGzipExtensions = ['js', 'css'];
 
 const port = 3103; // dev port
 
 
-// const glob = require('glob')
+const glob = require('glob')
 
 // const env = process.env.NODE_ENV;
 //
-// function getEntry(globPath) {
-//     let entries = {};
-//     glob.sync(globPath).forEach(function (entry) {
-//         var tmp = entry.split('/').splice(-3);
-//         entries[tmp[1]] = {
-//             entry: 'src/' + tmp[0] + '/' + tmp[1] + '/' + 'index.js',
-//             template: 'src/' + tmp[0] + '/' + tmp[1] + '/' + 'index.html',
-//             filename: tmp[1]
-//         };
-//     });
-//     return entries;
-// }
+function getEntry(globPath) {
+    let entries = {};
+    glob.sync(globPath).forEach(function (entry) {
+        var tmp = entry.split('/').splice(-3);
+        entries[tmp[1]] = {
+            entry: 'src/' + tmp[0] + '/' + tmp[1] + '/' + 'index.js',
+            template: 'src/' + tmp[0] + '/' + tmp[1] + '/' + 'index.html',
+            filename: tmp[1]
+        };
+    });
+    return entries;
+}
 
-// const pages = getEntry('./src/pages/**?/*.html');
-let entry = "//192.168.11.222:"
-process.env.NODE_ENV === "production" ? entry = "//192.168.11.222:" : entry = "//localhost:"
+const pages = getEntry('./src/pages/**?/*.html');
 
 module.exports = {
     /**
@@ -41,9 +39,9 @@ module.exports = {
      * In most cases please use '/' !!!
      * Detail: https://cli.vuejs.org/config/#publicpath
      */
-    publicPath:`${entry}${port}`,
+    // publicPath:`${entry}${port}`,
     // publicPath:`//localhost:${port}`,
-    // publicPath: '/',
+    publicPath: '/',
     outputDir: 'dist',
     assetsDir: 'static',
     filenameHashing: true,
@@ -70,37 +68,37 @@ module.exports = {
                 '@': resolve('src'),
             },
         },
-        // externals: {
-        //     'jquery': '$',
-        //     'axios': 'axios',
-        //     'vue-router': 'VueRouter',
-        //     'vue': 'Vue',
-        //     'vuex': 'Vuex',
-        //     'view-design': 'view-design',
-        //     'vue-i18n': 'VueI18n',
-        //     'swiper': 'Swiper',
-        //     'echarts': 'echarts'
-        // },
-        // plugins: process.env.NODE_ENV === 'production' ?[
-        //     new CompressionWebpackPlugin({
-        //         algorithm: 'gzip',
-        //         test: new RegExp(`\\.(${productionGzipExtensions.join('|')})$`),
-        //         threshold: 10240,
-        //         minRatio: 0.8,
-        //     }),
-        //     new UglifyJsPlugin({
-        //         uglifyOptions: {
-        //             compress: {
-        //                 drop_debugger: true, // console
-        //                 drop_console: true,
-        //                 pure_funcs: ['console.log'] // 移除console
-        //             },
-        //         },
-        //         sourceMap: false,
-        //         parallel: true,
-        //     }),
-        //     // new BundleAnalyzerPlugin()
-        // ]:[],
+        externals: {
+            'jquery': '$',
+            'axios': 'axios',
+            'vue-router': 'VueRouter',
+            'vue': 'Vue',
+            'vuex': 'Vuex',
+            'view-design': 'view-design',
+            'vue-i18n': 'VueI18n',
+            'swiper': 'Swiper',
+            'echarts': 'echarts'
+        },
+        plugins: process.env.NODE_ENV === 'production' ?[
+            new CompressionWebpackPlugin({
+                algorithm: 'gzip',
+                test: new RegExp(`\\.(${productionGzipExtensions.join('|')})$`),
+                threshold: 10240,
+                minRatio: 0.8,
+            }),
+            new UglifyJsPlugin({
+                uglifyOptions: {
+                    compress: {
+                        drop_debugger: true, // console
+                        drop_console: true,
+                        pure_funcs: ['console.log'] // 移除console
+                    },
+                },
+                sourceMap: false,
+                parallel: true,
+            }),
+            // new BundleAnalyzerPlugin()
+        ]:[],
         output: {
             // 把子应用打包成 umd 库格式
             library: `${name}-[name]`,
@@ -109,24 +107,18 @@ module.exports = {
         },
     },
     //压缩图片
-    // chainWebpack: config => {
-    //     config.module
-    //         .rule('images')
-    //         .use('url-loader')
-    //         .loader('url-loader')
-    //         .tap(options => {
-    //             // 修改它的选项...
-    //             options.limit = 100
-    //             return options
-    //         })
-    //     Object.keys(pages).forEach(entryName => {
-    //         config.plugins.delete(`prefetch-${entryName}`);
-    //     });
-    // },
     chainWebpack: config => {
-        config.plugin("html").tap(args => {
-            args[0].minify = false;
-            return args;
+        config.module
+            .rule('images')
+            .use('url-loader')
+            .loader('url-loader')
+            .tap(options => {
+                // 修改它的选项...
+                options.limit = 100
+                return options
+            })
+        Object.keys(pages).forEach(entryName => {
+            config.plugins.delete(`prefetch-${entryName}`);
         });
     }
 };

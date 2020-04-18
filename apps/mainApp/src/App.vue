@@ -5,7 +5,7 @@
             |
             <router-link to="/disaster">Disaster</router-link>
             <div> 收到{{$store.state.name}}应用的广播:{{$store.state.login}}</div>
-            <div @click="send">发送主应用广播</div>
+            <Button @click="send">发送主应用广播</Button>
         </div>
         <router-view/>
         <div class="main-container-view">
@@ -15,6 +15,7 @@
     </div>
 </template>
 <script>
+    import axios from 'axios'
     export default {
         name: "rootView",
         components: {},
@@ -30,6 +31,14 @@
                     data: "大家好哟"
                 });
             }
+        },
+        mounted() {
+            axios.get('/open/choose/tenants', {})
+                .then((response) => {
+                    let data = response.data
+                    console.log(this,data)
+                })
+
         }
     };
 </script>
@@ -44,7 +53,7 @@
 
     #nav {
         padding: 30px;
-
+        text-align: center;
         a {
             font-weight: bold;
             color: #2c3e50;
